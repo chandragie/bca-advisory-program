@@ -1,0 +1,10 @@
+**/node_modules/*
+**/.mvn/*
+**/.settings/*
+**/.vscode/*
+**/target/*
+**/.classpath
+**/.factorypath
+**/.project
+**/mvnw
+**/mvnw.cmd
