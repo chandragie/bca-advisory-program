@@ -1,15 +1,18 @@
-# bcaadam-be
+# BCA Advisory Program Day 3
 
-### Prerequisites :
-- IDE Setup
-- Java, Maven, Git
-- DB Setup
+### Security
 
-### Create DB and tables :
-- Open db.sql file
-- Execute the scripts on your DB client app
+Today we will add security to our backend APIs and frontend app
 
-### Project setup :
-- Open project folder with your IDE
-- Run `mvn clean spring-boot:run`
-- If nothing fails, you can proceed with the tutorial
+We will use :
+- Burpsuite
+- Postman
+
+### DevOps, Code Management
+
+Discussion :
+- Automated workflow (CI-CD)
+- Containerization (Docker, etc)
+- Externalized Configuration
+- TDD
+- etc
