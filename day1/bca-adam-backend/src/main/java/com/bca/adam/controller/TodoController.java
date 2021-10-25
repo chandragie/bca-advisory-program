@@ -10,7 +10,6 @@ import com.bca.adam.model.Todo;
 import com.bca.adam.repository.TodoRepository;
 import com.bca.adam.service.LoginService;
 import com.bca.adam.service.TodoService;
-import com.bca.adam.util.JWTTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,11 +37,9 @@ public class TodoController {
     LoginService loginService;
 
     @GetMapping("")
-    public ResponseEntity<List<Todo>> getTodosByCreator(HttpServletRequest req) {
+    public ResponseEntity<List<Todo>> getTodosByCreator(@RequestBody String userId, HttpServletRequest req) {
         try {
 
-            String userId = loginService
-                    .extractUserIdFromValidJWT(JWTTokenizer.validateJWT(req.getHeader("Authorization")));
             if (null == userId)
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
@@ -65,15 +62,10 @@ public class TodoController {
     @PostMapping("")
     public ResponseEntity<Todo> addTodo(@RequestBody Todo todo, HttpServletRequest req) {
         try {
-            String userId = loginService
-                    .extractUserIdFromValidJWT(JWTTokenizer.validateJWT(req.getHeader("Authorization")));
-            if (null == userId)
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
             if (todo.getTitle() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-            Todo _todo = todoRepo.save(new Todo(todo.getTitle(), userId));
+            Todo _todo = todoRepo.save(new Todo(todo.getTitle(), todo.getCreatedBy()));
             return new ResponseEntity<>(_todo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,18 +74,13 @@ public class TodoController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Todo> doneTodo(@RequestBody HashMap<String,String> body, HttpServletRequest req) {
+    public ResponseEntity<Todo> doneTodo(@RequestBody HashMap<String, String> body, HttpServletRequest req) {
         try {
-            System.out.println(body.get("id"));
-            String userId = loginService
-                    .extractUserIdFromValidJWT(JWTTokenizer.validateJWT(req.getHeader("Authorization")));
-            if (null == userId)
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            System.out.println(userId);
             if (body.get("id") == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-            Todo _todo = todoService.doneTodo(body.get("id"), body.get("done").equalsIgnoreCase("true")?true:false, userId);
+            Todo _todo = todoService.doneTodo(body.get("id"), body.get("done").equalsIgnoreCase("true") ? true : false,
+                    body.get("userId"));
             return new ResponseEntity<>(_todo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
