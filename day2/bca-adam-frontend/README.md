@@ -1,4 +1,9 @@
-# bcaitworks-fe
+# bcaadam-fe
+
+
+### Prerequisites :
+- IDE Setup
+- Node, NPM, Vue CLI, Git
 
 ## Project setup
 ```
