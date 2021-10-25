@@ -1,7 +1,17 @@
 <template>
   <div class="flex h-screen w-full justify-center items-center">
     <div
-      class="w-1/2 h-auto rounded-lg bg-gray-50 pl-5 pr-5 flex flex-col items-center shadow-md"
+      class="
+        w-1/2
+        h-auto
+        rounded-lg
+        bg-gray-50
+        pl-5
+        pr-5
+        flex flex-col
+        items-center
+        shadow-md
+      "
     >
       <img
         class="flex justify-center items-center mb-5"
@@ -13,20 +23,55 @@
           <input
             type="text"
             placeholder="Username"
-            class="w-full text-lg text-gray-700 border-b border-gray-400 p-2 outline-none mb-3"
+            class="
+              w-full
+              text-lg text-gray-700
+              border-b border-gray-400
+              p-2
+              outline-none
+              mt-3 mb-1
+            "
             autocomplete="off"
             v-model="user.username"
+            v-validate="'required|min:3|max:20'"
+            name="username"
           />
+          <label v-if="errors.has('username')" class="text-sm text-red-700">{{
+            errors.first("username")
+          }}</label>
 
           <input
             type="password"
             placeholder="Password"
-            class="w-full text-lg text-gray-700 border-b border-gray-400 p-2 outline-none m-auto mb-3"
+            class="
+              w-full
+              text-lg text-gray-700
+              border-b border-gray-400
+              p-2
+              outline-none
+              m-auto
+              mt-3 mb-1
+            "
             autocomplete="off"
             v-model="user.password"
+            v-validate="'required|min:6|max:40'"
+            name="password"
           />
+          <label v-if="errors.has('password')" class="text-sm text-red-700">{{
+            errors.first("password")
+          }}</label>
           <button
-            class="w-full rounded-md bg-indigo-400 p-2 text-lg focus:outline-none text-white font-bold mb-3"
+            class="
+              w-full
+              rounded-md
+              bg-indigo-400
+              p-2
+              text-lg
+              focus:outline-none
+              text-white
+              font-bold
+              my-3
+            "
           >
             Sign in
           </button>
@@ -49,7 +94,7 @@
 <script>
 import User from "../../models/user";
 export default {
-  title : "Login",
+  title: "Login",
   data() {
     return {
       user: new User("", ""),
@@ -63,7 +108,7 @@ export default {
   created() {
     console.log("[created] check loggedin in login : " + this.loggedIn);
     // if (this.loggedIn) {
-    //   this.$router.push("/books");
+    //   this.$router.push("/todo");
     // }
   },
   mounted() {
@@ -71,18 +116,20 @@ export default {
   },
   methods: {
     handleLogin() {
-      if (this.user.username && this.user.password) {
-        this.$store.dispatch("auth/login", this.user).then(
-          (response) => {
-            if (response == 200) {
-              this.$router.push("/books");
+      this.$validator.validate().then((isValid) => {
+        if (isValid) {
+          this.$store.dispatch("auth/login", this.user).then(
+            (response) => {
+              if (response == 200) {
+                this.$router.push("/todo");
+              }
+            },
+            (error) => {
+              console.log(error);
             }
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      }
+          );
+        }
+      });
     },
   },
 };

@@ -1,6 +1,7 @@
 package com.bca.adam.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.bca.adam.model.Todo;
 import com.bca.adam.repository.TodoRepository;
 import com.bca.adam.service.LoginService;
+import com.bca.adam.service.TodoService;
 import com.bca.adam.util.JWTTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +18,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/todo")
 public class TodoController {
 
     @Autowired
-    TodoRepository bookRepo;
+    TodoRepository todoRepo;
+
+    @Autowired
+    TodoService todoService;
 
     @Autowired
     LoginService loginService;
@@ -42,7 +48,7 @@ public class TodoController {
 
             List<Todo> todos = new ArrayList<>();
 
-            bookRepo.findByCreatedBy(userId).forEach(todos::add);
+            todoRepo.findByCreatedByOrderByIsDoneAscCreatedDateDesc(userId).forEach(todos::add);
 
             if (todos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -67,8 +73,28 @@ public class TodoController {
             if (todo.getTitle() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-            Todo _book = bookRepo.save(new Todo(todo.getTitle(), userId));
-            return new ResponseEntity<>(_book, HttpStatus.OK);
+            Todo _todo = todoRepo.save(new Todo(todo.getTitle(), userId));
+            return new ResponseEntity<>(_todo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Todo> doneTodo(@RequestBody HashMap<String,String> body, HttpServletRequest req) {
+        try {
+            System.out.println(body.get("id"));
+            String userId = loginService
+                    .extractUserIdFromValidJWT(JWTTokenizer.validateJWT(req.getHeader("Authorization")));
+            if (null == userId)
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            System.out.println(userId);
+            if (body.get("id") == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            Todo _todo = todoService.doneTodo(body.get("id"), body.get("done").equalsIgnoreCase("true")?true:false, userId);
+            return new ResponseEntity<>(_todo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

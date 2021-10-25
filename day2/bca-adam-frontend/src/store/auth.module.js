@@ -1,4 +1,5 @@
 import loginDS from "../services/LoginDataService";
+import userDS from "../services/UserDataService";
 
 const user = JSON.parse(localStorage.getItem('token'));
 const initialState = user ? {
@@ -46,7 +47,7 @@ export const auth = {
         register({
             commit
         }, user) {
-            return loginDS.register(user).then(response => {
+            return userDS.register(user).then(response => {
                 commit('registerSuccess');
                 return Promise.resolve(response.data);
             }, error => {

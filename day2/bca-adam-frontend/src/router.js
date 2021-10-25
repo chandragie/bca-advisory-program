@@ -3,6 +3,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./components/login/Login.vue";
 import Signup from "./components/login/Signup.vue"
+import TodoList from "./components/todo/TodoList.vue"
 
 Vue.use(Router);
 
@@ -10,7 +11,7 @@ export const router = new Router({
   mode: "history",
   routes: [{
       path: "/",
-      component: Login
+      component: TodoList
     },
     {
       path: "/login",
@@ -21,9 +22,14 @@ export const router = new Router({
       component: Signup,
     },
     {
-      path: "/books",
+      path: "/todo",
       //lazy loaded
-      component: () => import("./components/book/BookList"),
+      component: () => import("./components/todo/TodoList"),
+    },
+    {
+      path: "/todo/add",
+      //lazy loaded
+      component: () => import("./components/todo/AddTodo"),
     },
   ],
 });

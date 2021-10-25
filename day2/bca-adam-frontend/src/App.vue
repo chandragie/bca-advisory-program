@@ -10,7 +10,8 @@ export default {
   data() {
     return {};
   },
-  components: {},
+  components: {
+  },
   methods: {},
 };
 </script>

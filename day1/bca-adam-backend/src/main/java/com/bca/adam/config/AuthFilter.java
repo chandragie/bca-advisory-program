@@ -33,7 +33,6 @@ public class AuthFilter implements Filter {
             // response.sendRedirect(request.getContextPath() + "/common/unauthorized");
             request.getRequestDispatcher("/common/unauthorized").forward(request, response);
         }
-
     }
 
     private boolean isAllowedAnonymousURL(HttpServletRequest request) {

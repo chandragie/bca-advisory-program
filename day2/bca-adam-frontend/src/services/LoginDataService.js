@@ -31,15 +31,6 @@ class LoginDataService {
             return Promise.reject(error);
         });
     }
-
-    register(user) {
-        return http.post('/user', {
-            username: user.username,
-            name: user.name,
-            password: user.password
-        });
-    }
-
 }
 
 export default new LoginDataService();
