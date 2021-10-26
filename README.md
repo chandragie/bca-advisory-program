@@ -29,6 +29,7 @@ A full stack web developer, designer, husband, father, forever learner, coffee a
 - Full code will be shown not snippets, we will work together on it
 - Base project has already been provided
 - This is a simple project, not production ready guidelines!
+- **I'm still learning too, I encourage you to learn together, share what you know which I don't**
 
 
 *Credits goes to all resources taken as reference. *
