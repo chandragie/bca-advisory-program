@@ -108,7 +108,10 @@ export default {
       this.$validator.validate().then((isValid) => {
         if (isValid) {
           todoDS
-            .addTodo({ title: this.todo })
+            .addTodo({
+              title: this.todo,
+              createdBy: localStorage.getItem("username").replace(/["]+/g, ''),
+            })
             .then((response) => {
               if (response.status == 200) {
                 this.$router.push("/todo");

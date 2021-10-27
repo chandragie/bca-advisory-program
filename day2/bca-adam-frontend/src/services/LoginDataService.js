@@ -4,6 +4,7 @@ class LoginDataService {
 
     login(user) {
         return http.post('/sign/in', user).then(response => {
+            console.log(response);
             if (response.status == 200) {
                 localStorage.setItem('token', JSON.stringify(response.data));
                 localStorage.setItem(

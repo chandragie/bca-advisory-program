@@ -1,7 +1,7 @@
 import loginDS from "../services/LoginDataService";
 import userDS from "../services/UserDataService";
 
-const user = JSON.parse(localStorage.getItem('token'));
+const user = JSON.parse(localStorage.getItem('username'));
 const initialState = user ? {
     status: {
         loggedIn: true

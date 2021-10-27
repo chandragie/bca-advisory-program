@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class TodoDataService {
   getTodos() {
-    return http.get("/todo");
+    return http.get("/todo?userId=" + localStorage.getItem("username").replace(/["]+/g, ''));
   }
 
   addTodo(todo) {
@@ -12,7 +12,8 @@ class TodoDataService {
   updateTodo(id, done) {
     return http.put('/todo', {
       id: id,
-      done: done
+      done: done,
+      updatedBy: localStorage.getItem("username").replace(/["]+/g, '')
     });
   }
 
