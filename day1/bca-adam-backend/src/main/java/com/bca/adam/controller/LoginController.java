@@ -65,7 +65,7 @@ public class LoginController {
     // @PostMapping("/logout")
     @PostMapping("/out")
     @Transactional
-    public ResponseEntity<String> signout(@RequestBody HashMap<String, String> body, HttpServletRequest req) {
+    public ResponseEntity<String> signout(@RequestBody HashMap<String, String> body) {
 
         try {
             String username = body.get("username");
@@ -73,8 +73,12 @@ public class LoginController {
             if (null == username)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+            User user = userService.getUserByUsername(username);
 
-            loginRepo.logout(username.toString());
+            if(null==user){
+                return new ResponseEntity<>("User not found", HttpStatus.OK);
+            }
+            loginRepo.logout(user.getId().toString());
 
             return new ResponseEntity<>(username + " has successfully logged out", HttpStatus.OK);
 

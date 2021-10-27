@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TodoRepository extends JpaRepository<Todo, String> {
     List<Todo> findByCreatedByOrderByIsDoneAscCreatedDateDesc(String createdBy);
 
-    Optional<Todo> findByIdAndCreatedBy(UUID id, String createdBy);
+    Optional<Todo> findById(UUID id);
 }

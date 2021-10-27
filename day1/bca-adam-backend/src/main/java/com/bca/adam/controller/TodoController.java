@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.bca.adam.model.Todo;
 import com.bca.adam.repository.TodoRepository;
 import com.bca.adam.service.LoginService;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*")
@@ -37,7 +36,7 @@ public class TodoController {
     LoginService loginService;
 
     @GetMapping("")
-    public ResponseEntity<List<Todo>> getTodosByCreator(@RequestBody String userId, HttpServletRequest req) {
+    public ResponseEntity<List<Todo>> getTodosByCreator(@RequestParam String userId) {
         try {
 
             if (null == userId)
@@ -60,9 +59,9 @@ public class TodoController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo, HttpServletRequest req) {
+    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo) {
         try {
-            if (todo.getTitle() == null)
+            if (todo.getTitle() == null || null == todo.getCreatedBy())
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             Todo _todo = todoRepo.save(new Todo(todo.getTitle(), todo.getCreatedBy()));
@@ -74,13 +73,13 @@ public class TodoController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Todo> doneTodo(@RequestBody HashMap<String, String> body, HttpServletRequest req) {
+    public ResponseEntity<Todo> modifyTodo(@RequestBody HashMap<String, String> body) {
         try {
-            if (body.get("id") == null)
+            if (body.get("id") == null || null == body.get("updatedBy"))
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-            Todo _todo = todoService.doneTodo(body.get("id"), body.get("done").equalsIgnoreCase("true") ? true : false,
-                    body.get("userId"));
+            Todo _todo = todoService.modifyTodo(body.get("id"), body.get("done").equalsIgnoreCase("true") ? true : false,
+                    body.get("updatedBy"));
             return new ResponseEntity<>(_todo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

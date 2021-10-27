@@ -33,4 +33,12 @@ public class UserService {
             return null;
     }
 
+    public User getUserByUsername(String username) {
+        Optional<User> _user = userRepo.findByUsername(username);
+        if (_user.isPresent())
+            return _user.get();
+        else
+            return null;
+    }
+
 }

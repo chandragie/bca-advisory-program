@@ -16,9 +16,9 @@ public class TodoService {
     @Autowired
     TodoRepository todoRepo;
 
-    public Todo doneTodo(String id, boolean done, String userId) {
+    public Todo modifyTodo(String id, boolean done, String userId) {
         Todo retVal = new Todo();
-        Optional<Todo> _todo = todoRepo.findByIdAndCreatedBy(UUID.fromString(id), userId);
+        Optional<Todo> _todo = todoRepo.findById(UUID.fromString(id));
         if (_todo.isPresent()) {
             Todo existTodo = _todo.get();
             existTodo.setDone(done);
