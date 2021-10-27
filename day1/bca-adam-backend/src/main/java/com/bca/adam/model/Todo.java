@@ -4,49 +4,36 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-@Entity
-@Table(name = "todo")
-@Data
-@ToString
-@EqualsAndHashCode
+// @Entity
+// @Table(name = "todo")
+// @Data
+// @ToString
+// @EqualsAndHashCode
 public class Todo {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @Type(type = "pg-uuid")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
+    // @Id
+    // @GeneratedValue(generator = "UUID")
+    // @Type(type = "pg-uuid")
+    // @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    // @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "title")
+    // @Column(name = "title")
     private String title;
 
-    @Column(name = "created_by")
+    // @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "created_date", columnDefinition = "default NOW()")
+    // @Column(name = "created_date", columnDefinition = "default NOW()")
     private Date createdDate;
 
-    @Column(name = "modified_by")
+    // @Column(name = "modified_by")
     private String modifiedBy;
 
-    @Column(name = "modified_date")
+    // @Column(name = "modified_date")
     private Date modifiedDate;
 
-    @Column(name = "is_done")
+    // @Column(name = "is_done")
     private boolean isDone;
 
     public Todo(String title, String createdBy) {
