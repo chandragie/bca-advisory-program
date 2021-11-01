@@ -38,7 +38,6 @@ public class LoginController {
     @PostMapping("/in")
     @Transactional
     public ResponseEntity<String> signin(@RequestBody User user) {
-        String jwt = null;
         try {
             if (null != user.getUsername() && null != user.getPassword()) {
                 String userId = userService.getUserIdByUsernameAndPassword(user.getUsername(), user.getPassword());
