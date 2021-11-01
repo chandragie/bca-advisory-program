@@ -2,7 +2,6 @@ package com.bca.adam.controller;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import com.bca.adam.model.Login;

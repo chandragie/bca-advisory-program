@@ -13,3 +13,10 @@
 - Open project folder with your IDE
 - Run `mvn clean spring-boot:run`
 - If nothing fails, you can proceed with the tutorial
+
+### Run Swagger Doc:
+Go to `http://localhost:8080/adam/swagger-ui/` to open Swagger documentation.
+
+
+
+> IP port may vary
